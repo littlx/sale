@@ -8,12 +8,12 @@ export const PUT = async ({ params, request }) => {
     const related = data.related || []
     delete data.related
 
+    if (related && related.field) {
+      data[related.field] = { deleteMany: {}, create: related.data.map(i => ({ ...i })) }
+    }
+
     const updated = await db[table].update({
-      where: { id },
-      data: {
-        ...data,
-        [related.field]: { deleteMany: {}, create: related.data.map(i => ({ ...i })) }
-      }
+      where: { id }, data
     });
 
     return {
