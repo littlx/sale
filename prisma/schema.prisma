@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  // provider = "sqlite"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  username      String   @unique
+  passwordHash  String
+  userAuthToken String   @unique @default(cuid())
+  active        Boolean  @default(true)
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  phone     String?  @unique
+  active    Boolean  @default(true)
+
+  sales Sale[]
+}
+
+// 供应商
+model Supplier {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  phone     String?  @unique
+  active    Boolean  @default(true)
+  buys      Buy[]
+}
+
+// 产品
+model Product {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String   @unique
+  price     Float // 商品默认价格
+  active    Boolean  @default(true)
+
+  buys  ProductOnBuy[]
+  sales ProductOnSale[]
+}
+
+// 收购
+model Buy {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  date      DateTime // 收购日期
+  rounding  Float    @default(0.0) // 收购抹零
+  tare      Float    @default(0.0) // 皮重
+  paid      Boolean  @default(false) //是否付款
+
+  supplier      Supplier       @relation(fields: [supplier_name], references: [name])
+  supplier_name String
+  products      ProductOnBuy[]
+}
+
+// 销售
+model Sale {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  date      DateTime // 收购日期
+  rounding  Float    @default(0.0) // 收购抹零
+  tare      Float    @default(0.0) // 皮重
+  received  Boolean  @default(false) // 是否已收款
+
+  customer      Customer        @relation(fields: [customer_name], references: [name])
+  customer_name String
+  products      ProductOnSale[]
+}
+
+// 收购单内商品
+model ProductOnBuy {
+  buy          Buy     @relation(fields: [buy_id], references: [id])
+  buy_id       String // relation scalar field (used in the `@relation` attribute above)
+  product      Product @relation(fields: [product_name], references: [name])
+  product_name String // relation scalar field (used in the `@relation` attribute above)
+  price        Float // 收购时的实际价格
+  number       Float // 商品数量
+
+  @@id([buy_id, product_name])
+}
+
+// 销售单内商品
+model ProductOnSale {
+  sale         Sale    @relation(fields: [sale_id], references: [id])
+  sale_id      String // relation scalar field (used in the `@relation` attribute above)
+  product      Product @relation(fields: [product_name], references: [name])
+  product_name String // relation scalar field (used in the `@relation` attribute above)
+  price        Float // 销售时的实际价格
+  number       Float // 商品数量
+
+  @@id([sale_id, product_name])
+}

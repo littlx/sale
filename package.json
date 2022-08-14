@@ -1,0 +1,41 @@
+{
+	"name": "sale",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"package": "svelte-kit package",
+		"preview": "vite preview",
+		"lint": "prettier --check --plugin-search-dir=. . && eslint .",
+		"format": "prettier --write --plugin-search-dir=. ."
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "next",
+		"@sveltejs/kit": "next",
+		"autoprefixer": "^10.4.8",
+		"date-picker-svelte": "^2.1.0",
+		"eslint": "^8.16.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"flowbite-svelte": "^0.24.4",
+		"postcss": "^8.4.16",
+		"prettier": "^2.6.2",
+		"prettier-plugin-svelte": "^2.7.0",
+		"prisma": "^4.2.1",
+		"svelte": "^3.44.0",
+		"svelte-preprocess": "^4.10.7",
+		"tailwindcss": "^3.1.8",
+		"vite": "^3.0.0"
+	},
+	"type": "module",
+	"dependencies": {
+		"@prisma/client": "^4.2.1",
+		"bcrypt": "^5.0.1",
+		"cookie": "^0.5.0",
+		"date-fns": "^2.29.1",
+		"svelte-select": "^4.4.7"
+	},
+	"prisma": {
+		"seed": "node prisma/seed.js"
+	}
+}
