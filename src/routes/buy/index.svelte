@@ -9,7 +9,7 @@
 	import RemoteSelect from '$root/components/RemoteSelect.svelte';
 	import { toDate } from '$lib/helper';
 	import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
-	import { zhCN } from 'date-fns/locale';
+	import { zhCN } from 'date-fns/locale/index.js';
 	import ProductList from '../../components/ProductList.svelte';
 
 	export let buys;

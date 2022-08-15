@@ -5,7 +5,6 @@
 	import Pagination from '$root/components/Pagination.svelte';
 	import Modal from '$root/components/Modal.svelte';
 	import { crud } from '$root/lib/api';
-	import { popMessage } from '$lib/store/message';
 	import Table from '$root/components/Table.svelte';
 
 	export let suppliers;
