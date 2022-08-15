@@ -2,10 +2,12 @@ import { db } from '$lib/database';
 
 export const GET = async ({ url }) => {
 	const search = url.searchParams.get('search');
+	const supplier_name = url.searchParams.get('supplier_name')
 	const current = url.searchParams.get('current') || 1;
 	const size = url.searchParams.get('size') || 20;
 	const where = {};
-	if (search) where['name'] = { contains: search, };
+	if (search) where['supplier_name'] = { contains: search, };
+	if (supplier_name) where['supplier_name'] = supplier_name
 
 	const supplier = {
 		select: {

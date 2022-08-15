@@ -22,6 +22,8 @@
 		tare: 0,
 		products: []
 	};
+	let start;
+	let end;
 	let form = { ...formInit };
 	let showModal = false;
 	let editOrAdd;
@@ -128,7 +130,27 @@
 </svelte:head>
 
 <div class="overflow-x-auto relative sm:rounded-lg bg-white">
-	<PageHeader on:search={search} on:add={add} />
+	<PageHeader on:search={search} on:add={add}>
+		<div class="w-40 px-2">
+			<RemoteSelect dbTable="supplier" placeholder="选择供应商" filter="supplier_name" />
+		</div>
+		<DateInput
+			placeholder="收购日期起"
+			bind:value={start}
+			locale={localeFromDateFnsLocale(zhCN)}
+			format="yyyy/MM/dd"
+			closeOnSelection={true}
+			--date-input-width="100%"
+		/>
+		<DateInput
+			placeholder="收购日期止"
+			bind:value={end}
+			locale={localeFromDateFnsLocale(zhCN)}
+			format="yyyy/MM/dd"
+			closeOnSelection={true}
+			--date-input-width="100%"
+		/>
+	</PageHeader>
 	<Table bind:headers={tableHeaders} on:selectAllChanged={selectAllChanged}>
 		{#each records as buy, idx}
 			<tr
